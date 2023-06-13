@@ -13,6 +13,7 @@ export const Form = styled.form`
   justify-content: center;
   align-items: center;
   text-align: center;
+  background-color: ${({ theme }) => theme.COLORS.BACKGROUND_900};
 
   > h1 {
     font-size: 48px;

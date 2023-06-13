@@ -5,10 +5,12 @@ import avatarPlaceholder from "../../assets/doge.png"
 import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '../Input';
 import {FiSearch} from 'react-icons/fi';
+import { useEffect, useState } from "react";
 
 
 
-export function Header(){
+export function Header(props) {
+  const {search, setSearch, handleChange} = props;
   const {signOut, user} = useAuth();
   const navigate = useNavigate();
   function handleSignOut(){
@@ -18,6 +20,8 @@ export function Header(){
 
   const avatarUrl = user?.avatar ? `${api.defaults.baseURL}/files/${user?.avatar}` : avatarPlaceholder;
 
+
+
   return (
     <Container>
       <Brand>
@@ -26,13 +30,13 @@ export function Header(){
         <Input
           placeholder="Pesquise pelo título"
           icon={FiSearch} 
+          value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         <UserNameText>
         <div>
-          <strong>Josué Oliveira</strong>
+          <strong>{user?.name}</strong>
         </div>
-        {/* {user?.name} */}
         <Link  onClick={handleSignOut}>Sair</Link>
         </UserNameText>
       <Profile to="/profile">

@@ -1,58 +1,55 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
-
   display: grid;
-  grid-template-rows: 105px 128px auto 64px;
+  background-color: ${({ theme }) => theme.COLORS.BACKGROUND_900};
+  grid-template-rows: 180px;
   grid-template-areas:
     "header"
-    "newnote"
-    "content"
-    "content";
-
-  background-color: ${({ theme }) => theme.COLORS.BACKGROUND_900};
+    "title"
+    "movieList";
 `;
 
-export const Menu = styled.ul`
-  grid-area: menu;
-  background-color: ${({ theme }) => theme.COLORS.BACKGROUND_900};
-
-  padding-top: 64px;
-  text-align: center;
-
-  > li {
-    margin-bottom: 24px;
-  }
-`;
-export const Search = styled.div`
-  grid-area: search;
-  padding: 64px 64px 0;
-`;
-export const Content = styled.div`
-  grid-area: content;
-  padding: 0 64px;
-  overflow-y: auto;
-`;
-export const SubHeader = styled.div`
-  display: flex;
-  padding: 50px 123px 0;
-  justify-content: space-between;
-`;
-export const NewNote = styled(Link)`
-  grid-area: newnote;
-  background-color: ${({ theme }) => theme.COLORS.PINK};
-  color: rgba(28, 27, 30, 1);
-  border-radius: 8px;
-  width: 207px;
-  height: 48px;
+export const Title = styled.div`
+  grid-area: title;
+  padding: 0 123px;
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  svg {
-    margin-right: 8px;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  > h1 {
+    flex: 1;
+    font-size: 32px;
   }
+  > a {
+    background-color: ${({ theme }) => theme.COLORS.PINK};
+    color: ${({ theme }) => theme.COLORS.BACKGROUND_900};
+    height: 48px;
+    width: 207px;
+    min-width: fit-content;
+    border: 0;
+    padding: 0 32px;
+    border-radius: 10px;
+    font-weight: 400;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+`;
+
+export const MovieList = styled.div`
+  grid-area: movieList;
+  margin: 0 123px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 80px;
 `;

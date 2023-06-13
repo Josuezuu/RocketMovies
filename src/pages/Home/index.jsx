@@ -1,72 +1,45 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { api } from '../../services/api';
-import {FiPlus, FiSearch} from 'react-icons/fi';
-import {Container, Menu, Search, Content, NewNote, SubHeader} from './styles';
-import {Header} from '../../components/Header';
-import {Input} from '../../components/Input';
-import {ButtonText} from '../../components/ButtonText';
-import {Button} from '../../components/Button';
-import {Section} from '../../components/Section';
-import {Note} from '../../components/Note';
+import { Container, Title, MovieList } from "./styles";
 
-export function Home(){
-  const [search, setSearch] = useState('');
-  const [tags, setTags] = useState([]);
-  const [tagsSelected, setTagsSelected] = useState([]);
-  const [notes, setNotes] = useState([]);
+import { useState, useEffect } from "react";
 
-  const navigate = useNavigate();
+import { Header } from "../../components/Header";
+import { Movie } from "../../components/Movie";
 
-  function handleTagSelection(tagName){
-    if(tagName === 'all'){
-      return setTagsSelected([]);
-    }
-    const alreadySelected = tagsSelected.includes(tagName);
+import { FiPlus } from "react-icons/fi";
 
-    if (alreadySelected) {
-      const filteredTags = tagsSelected.filter(tag => tag !== tagName);
-      setTagsSelected(filteredTags);
-    } else {
+import { Link } from "react-router-dom";
+import { api } from "../../services/api";
 
-      setTagsSelected(prevState => [...prevState, tagName])
-    }
-  }
+export function Home() {
+  const [movies, setMovies] = useState([]);
+  const [search, setSearch] = useState("");
 
-  function  handleDetails(id){
-    navigate(`/details/${id}`);
+  function handleChange(event) {
+    setSearch(event.target.value);
   }
 
   useEffect(() => {
-    async function fetchTags(){
-      const response = await api.get("/tags");
-      setTags(response.data);
+    async function fetchMovies() {
+      const response = await api.get(`/movies?title=${search}`);
+      setMovies(response.data);
     }
-    fetchTags();
-  },[]);
-
-  useEffect(() => {
-    async function fetchNotes(){
-      const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`);
-      setNotes(response.data);
-    }
-    fetchNotes();
-  },[tagsSelected, search]);
-
+    fetchMovies();
+  }, [search]);
   return (
     <Container>
-
-      <Header />
-     <SubHeader>
+      <Header handleChange={handleChange} search={search} setSearch={setSearch} />
+      <Title>
         <h1>Meus filmes</h1>
-         <NewNote to="/new">
-          <FiPlus />
+        <Link to="/new">
+          <FiPlus size={20} />
           Adicionar filme
-
-      </NewNote>
-      </SubHeader>
-      <Content></Content>
-        
+        </Link>
+      </Title>
+      <MovieList>
+        {movies.map(item => (
+          <Movie key={item.id} data={item} />
+        ))}
+      </MovieList>
     </Container>
-  )
+  );
 }

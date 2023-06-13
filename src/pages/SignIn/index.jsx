@@ -18,7 +18,7 @@ export function SignIn(){
   }
   return (
     <Container>
-      <Form>
+      <Form >
         <h1>RocketMovies</h1>
         <div>
         <p>Aplicação para acompanhar tudo que assistir.</p>
